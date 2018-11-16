@@ -1,30 +1,38 @@
 'use strict'
 
 const Hapi = require('hapi')
+const handlebars = require('handlebars')
+const inert = require('inert')
+const path = require('path')
+const vision = require('vision')
+const routes = require('./routes')
 
 const server = Hapi.server({
   port: process.env.PORT || 3000,
-  host: 'localhost'
+  host: 'localhost',
+  routes: {
+    files: {
+      relativeTo: path.join(__dirname, 'public')
+    }
+  }
 })
 
 async function init () {
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: (req, h) => {
-      return h.response('Hola Mundo...').code(200)
-    }
-  })
-
-  server.route({
-    method: 'GET',
-    path: '/redirect',
-    handler: (req, h) => {
-      return h.redirect('https://carlosazaustre.es')
-    }
-  })
-
   try {
+    await server.register(inert)
+    await server.register(vision)
+
+    server.views({
+      engines: {
+        hbs: handlebars
+      },
+      relativeTo: __dirname,
+      path: 'views',
+      layout: true,
+      layoutPath: 'views'
+    })
+
+    server.route(routes)
     await server.start()
   } catch (error) {
     console.error(error)

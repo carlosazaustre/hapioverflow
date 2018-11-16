@@ -1,10 +1,10 @@
 {
-  "name": "platzi-stackoverflow",
+  "name": "hapioverflow",
   "version": "1.0.0",
   "description": "A website like StackOverflow. For educational purposes",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --ext js,hbs",
     "lint": "standard",
     "lint-fix": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,12 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "hapi": "^17.6.0"
+    "bcrypt": "^3.0.1",
+    "firebase-admin": "^6.0.0",
+    "handlebars": "^4.0.12",
+    "hapi": "^17.6.0",
+    "inert": "^5.1.0",
+    "joi": "^13.7.0",
+    "vision": "^5.4.0"
   }
 }
