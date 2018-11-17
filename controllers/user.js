@@ -9,10 +9,16 @@ async function createUser (req, h) {
     result = await users.create(req.payload)
   } catch (error) {
     console.error(error)
-    return h.response('Problems creating the user').code(500)
+    return h.view('register', {
+      title: 'Sign Up',
+      error: 'Error creating the user'
+    })
   }
 
-  return h.response(`User created ID: ${result}`)
+  return h.view('register', {
+    title: 'Sign Up',
+    success: 'Succesfully user created'
+  })
 }
 
 function logout (req, h) {
@@ -24,11 +30,17 @@ async function validateUser (req, h) {
   try {
     result = await users.validateUser(req.payload)
     if (!result) {
-      return h.response('Wrong email or password').code(401)
+      return h.view('login', {
+        title: 'Login',
+        error: 'Wrong email/password'
+      })
     }
   } catch (error) {
     console.error(error)
-    return h.response('Problems validating the user').code(500)
+    return h.view('login', {
+      title: 'Login',
+      error: 'Problems validating the user'
+    })
   }
 
   return h.redirect('/').state('user', {
