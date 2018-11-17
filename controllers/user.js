@@ -1,12 +1,13 @@
 'use strict'
 
-const Boom = require('boom')
+// const Boom = require('boom')
 const users = require('../models').users
 
 async function createUser (req, h) {
   let result
   try {
     result = await users.create(req.payload)
+    console.log(result)
   } catch (error) {
     console.error(error)
     return h.view('register', {

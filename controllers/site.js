@@ -1,9 +1,19 @@
 'use strict'
 
-function home (req, h) {
+const questions = require('../models').questions
+
+async function home (req, h) {
+  let data
+  try {
+    data = await questions.getLast(10)
+  } catch (error) {
+    console.error(error)
+  }
+
   return h.view('index', {
     title: 'Home',
-    user: req.state.user
+    user: req.state.user,
+    questions: data
   })
 }
 
@@ -37,7 +47,7 @@ function notFound (req, h) {
 
 function fileNotFound (req, h) {
   const response = req.response
-  if (response.isBoom && response.output.statusCode == 404) {
+  if (response.isBoom && response.output.statusCode === 404) {
     return h.view('404', {}, {
       layout: 'error-layout'
     }).code(404)
