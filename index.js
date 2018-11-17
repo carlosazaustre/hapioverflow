@@ -6,6 +6,7 @@ const inert = require('inert')
 const path = require('path')
 const vision = require('vision')
 const routes = require('./routes')
+const site = require('./controllers/site')
 
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7
 
@@ -41,7 +42,9 @@ async function init () {
       layoutPath: 'views'
     })
 
+    server.ext('onPreResponse', site.fileNotFound)
     server.route(routes)
+
     await server.start()
   } catch (error) {
     console.error(error)
