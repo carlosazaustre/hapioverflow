@@ -14,21 +14,30 @@ async function createUser (req, h) {
   return h.response(`User created ID: ${result}`)
 }
 
+function logout (req, h) {
+  return h.redirect('/login').unstate('user')
+}
+
 async function validateUser (req, h) {
-  console.log('Controller User: validateUser')
   let result
-  console.log(req.payload)
   try {
     result = await users.validateUser(req.payload)
+    if (!result) {
+      return h.response('Wrong email or password').code(401)
+    }
   } catch (error) {
     console.error(error)
     return h.response('Problems validating the user').code(500)
   }
 
-  return result
+  return h.redirect('/').state('user', {
+    name: result.name,
+    email: result.email
+  })
 }
 
 module.exports = {
   createUser,
-  validateUser
+  validateUser,
+  logout
 }

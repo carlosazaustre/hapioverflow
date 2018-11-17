@@ -20,6 +20,11 @@ module.exports = [{
   path: '/login',
   handler: site.login
 },
+{
+  method: 'GET',
+  path: '/logout',
+  handler: user.logout
+},
 
 {
   method: 'POST',
