@@ -52,14 +52,13 @@ async function validateUser (req, h) {
 function failValidation (req, h, err) {
   const templates = {
     '/create-user': 'register',
-    '/validate-user': 'login'
+    '/validate-user': 'login',
+    '/create-question': 'ask'
   }
   return h.view(templates[req.path], {
     title: 'Validation Error',
     error: 'Please, complete the required fields'
-  })
-    .code(400)
-    .takeover()
+  }).code(400).takeover()
 }
 
 module.exports = {
